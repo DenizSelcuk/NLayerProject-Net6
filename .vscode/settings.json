@@ -1,0 +1,21 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "[!N]*/**": true,
+        "N[!L]*/**": true,
+        "NL[!a]*/**": true,
+        "NLa[!y]*/**": true,
+        "NLay[!e]*/**": true,
+        "NLaye[!r]*/**": true,
+        "NLayer[!.]*/**": true,
+        "NLayer.[!C]*/**": true,
+        "NLayer.C[!o]*/**": true,
+        "NLayer.Co[!r]*/**": true,
+        "NLayer.Cor[!e]*/**": true
+    }
+}
