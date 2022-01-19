@@ -16,11 +16,11 @@ namespace NLayer.Repository
         } //options for startup.cs
         public DbSet<Category> Categories {get; set;} 
         public DbSet<Product> Products { get; set; }
-        public DbSet<ProductFeature> MyProperty { get; set; }
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
         protected override void OnModelCreating (ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); //implements the configuration that come from all assmbly that use IEntityTypeConfiguration interface. 
-            modelBuilder.Entity<ProductFeature>().HasData(new ProductFeature(){Id=1,Color= "Red", Height=12,Width=10,ProductId=1}); //For example, could come from the assembly.
+            //modelBuilder.Entity<ProductFeature>().HasData(new ProductFeature(){Id=1,Color= "Red", Height=12,Width=10,ProductId=1}); //For example, could come from the assembly.
             base.OnModelCreating(modelBuilder);
         } 
     }

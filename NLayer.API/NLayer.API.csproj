@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NLayer.Service\NLayer.Service.csproj" />
-    <ProjectReference Include="..\NLayer.Repository\NLayer.Repository.csproj" />
   </ItemGroup>
 
 </Project>

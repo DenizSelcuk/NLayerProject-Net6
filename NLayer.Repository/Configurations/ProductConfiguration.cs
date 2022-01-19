@@ -10,8 +10,6 @@ namespace NLayer.Repository.Configurations
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
-    
-
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(x=>x.Id);
@@ -21,8 +19,7 @@ namespace NLayer.Repository.Configurations
             builder.Property(x=>x.Price).IsRequired().HasColumnType("decimal(18,2)");
 
             builder.ToTable("Products");
-            builder.HasOne(x=>x.Category).WithMany(x=>x.Products).HasForeignKey(x=>x.Category);
-
+            builder.HasOne(x=>x.Category).WithMany(x=>x.Products).HasForeignKey(x=>x.CategoryId);
         }
     }
 }
