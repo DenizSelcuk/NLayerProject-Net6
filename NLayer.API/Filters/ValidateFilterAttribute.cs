@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NLayer.Core.DTOs;
+using System.Linq;
 
 namespace NLayer.API.Filters
 {

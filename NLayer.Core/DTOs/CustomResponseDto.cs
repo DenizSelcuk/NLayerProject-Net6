@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Core.DTOs
 {
-    //staticfactor method&design pattern new anahtar sözlüğünü kullanmak yerine metot içerisinde static metotlar tanımlayarak instanceları döndürme olayıdır.
+    //static factor method&design pattern new anahtar sözlüğünü kullanmak yerine metot içerisinde static metotlar tanımlayarak instanceları döndürme olayıdır.
     public class CustomResponseDto<T>
     {
         public T Data { get; set; }
