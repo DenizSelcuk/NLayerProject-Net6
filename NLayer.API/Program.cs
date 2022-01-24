@@ -1,9 +1,12 @@
 using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NLayer.API.Filters;
 using NLayer.API.Middlewares;
+using NLayer.API.Modules;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
@@ -24,27 +27,35 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });//Api'de varsayýlan olarak kullanýlan filtreyi yeniden yapýlandýrdýk.Kendi exception mesajlarýmýzý dönmek için. 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped(typeof(NotFoundFilter<>)); //NotFoundFilter'ý program cs'e bildirdik.
+builder.Services.AddScoped(typeof(NotFoundFilter<>)); //NotFoundFilter'ý program cs'e bildirdik. //Filterlar için de bir modüle oluþturulmalý
 
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>(); //DI
-builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>)); //DI
-builder.Services.AddScoped(typeof(IService<>),typeof(Service<>)); //DI
-builder.Services.AddAutoMapper(typeof(MapProfile)); //DI
-builder.Services.AddScoped<IProductService, ProductService>(); //DI
-builder.Services.AddScoped<IProductRepository,ProductRepository>(); //DI
-builder.Services.AddScoped<ICategoryService, CategoryService>(); //DI
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); //DI
+builder.Services.AddAutoMapper(typeof(MapProfile)); //Built-in DI Conteiner
 
-builder.Services.AddDbContext<AppDbContext>(x=>
+builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"),option=>
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
     {
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
     });
-}); //Bildiri
+});
+
+/*
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>(); //Built-in DI Conteiner herhangi bir classýn constructorunda gerekli olan interface ve bu interfaceye karþýlýk gelen clasý belirtiriz. Bunlar için AutoFac kullanacaðýz.
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>)); //Built-in DI Conteiner
+builder.Services.AddScoped(typeof(IService<>),typeof(Service<>)); //Built-in DI Conteiner
+
+builder.Services.AddScoped<IProductService, ProductService>(); //Built-in DI Conteiner
+builder.Services.AddScoped<IProductRepository,ProductRepository>(); //Built-in DI Conteiner
+builder.Services.AddScoped<ICategoryService, CategoryService>(); //Built-in DI Conteiner 
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); //Built-in DI Conteiner
+*/
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()); //Built-in DI Conteiner yerine AutoFac kullanacaðýz.
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder=>containerBuilder.RegisterModule(new RepoServiceModule())); //RepoServiceModule register edilir. filter modul içinde eklenmeli
 
 var app = builder.Build();
 
@@ -57,7 +68,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UserCustomExeption(); //Bildiri middleware 
+app.UserCustomExeption(); //middleware 
 
 app.UseAuthorization();
 
