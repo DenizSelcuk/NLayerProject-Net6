@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLayer.API.Filters;
 using NLayer.Core;
 using NLayer.Core.DTOs;
 using NLayer.Core.Services;
@@ -29,6 +30,8 @@ namespace NLayer.API.Controllers
             var productsDtos= _mapper.Map<List<ProductDto>>(products.ToList());
             return CreateActionResult(CustomResponseDto<List<ProductDto>>.Success(200, productsDtos));
         }
+
+        [ServiceFilter(typeof(NotFoundFilter<Product>))] //NotFoundFilter direk bir attribute classını miras almadığı için doğrudan attribute olarak eklemezsin. NEDEN:1 dinamik kullanmak istiyoruz 2 constructor metodunda parametre kullandığımız için bir attirutede kullanamayız. Bu yüzden servisfilter kullanmalısın. ÇÖZÜM:ServiceFilter attributene kendi oluşturduğumuz filter'ı tip olarak verdik.
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

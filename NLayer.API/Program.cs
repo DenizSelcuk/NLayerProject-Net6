@@ -17,24 +17,26 @@ using NLayer.Service.Validations;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers(options => options.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
+builder.Services.AddControllers(options => options.Filters.Add(new ValidateFilterAttribute())).AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>()); //Controllers ekledik ve filtre ekledik.
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
-});
+});//Api'de varsayýlan olarak kullanýlan filtreyi yeniden yapýlandýrdýk.Kendi exception mesajlarýmýzý dönmek için. 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
-builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IService<>),typeof(Service<>));
-builder.Services.AddAutoMapper(typeof(MapProfile));
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository,ProductRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped(typeof(NotFoundFilter<>)); //NotFoundFilter'ý program cs'e bildirdik.
+
+builder.Services.AddScoped<IUnitOfWork,UnitOfWork>(); //DI
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>)); //DI
+builder.Services.AddScoped(typeof(IService<>),typeof(Service<>)); //DI
+builder.Services.AddAutoMapper(typeof(MapProfile)); //DI
+builder.Services.AddScoped<IProductService, ProductService>(); //DI
+builder.Services.AddScoped<IProductRepository,ProductRepository>(); //DI
+builder.Services.AddScoped<ICategoryService, CategoryService>(); //DI
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); //DI
 
 builder.Services.AddDbContext<AppDbContext>(x=>
 {
@@ -42,7 +44,7 @@ builder.Services.AddDbContext<AppDbContext>(x=>
     {
         option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
     });
-});
+}); //Bildiri
 
 var app = builder.Build();
 
@@ -55,7 +57,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UserCustomExeption();
+app.UserCustomExeption(); //Bildiri middleware 
 
 app.UseAuthorization();
 

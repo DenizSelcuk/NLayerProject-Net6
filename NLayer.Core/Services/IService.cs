@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NLayer.Core.Services
 {
+    //Generic yapýyý kullandýðýmýz takdirde sýnýf içerisindeki deðiþkenlerin, parametrelerin ve metotlarýn geri dönüþ tiplerini o sýnýftan bir nesne oluþtururken belirleyebilmekteyiz.
     public interface IService<T> where T : class
     {
         Task<T> GetByIdAsync(int id);

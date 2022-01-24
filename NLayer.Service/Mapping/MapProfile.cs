@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using NLayer.Core;
 using NLayer.Core.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NLayer.Service.Mapping 
 {
+    //Automapper profile sınıfından miras alarak bir mapprofile sınıfı oluşturduk. Burada hangi modelleri hangi modellere göre mapleyebileceğimizi yazdık. Programc.cs'de automapper eklenerek bu sınıf verilmeli.
     public class MapProfile : Profile
     {
         public MapProfile()

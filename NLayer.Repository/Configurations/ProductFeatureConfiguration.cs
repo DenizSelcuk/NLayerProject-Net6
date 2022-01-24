@@ -10,8 +10,6 @@ namespace NLayer.Repository.Configurations
 {
     public class ProductFeatureConfiguration : IEntityTypeConfiguration<ProductFeature>
     {
-    
-
         public void Configure(EntityTypeBuilder<ProductFeature> builder)
         {
             builder.HasKey(x=>x.Id);

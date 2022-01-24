@@ -10,8 +10,6 @@ namespace NLayer.Repository.Configurations
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-    
-
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(x=>x.Id);
@@ -19,7 +17,6 @@ namespace NLayer.Repository.Configurations
             builder.Property(x=>x.Name).IsRequired().HasMaxLength(50);
 
             builder.ToTable("Categories");
-
         }
     }
 }
