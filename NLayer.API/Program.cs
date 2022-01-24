@@ -35,6 +35,8 @@ builder.Services.AddScoped(typeof(NotFoundFilter<>)); //NotFoundFilter'ý program
 
 builder.Services.AddAutoMapper(typeof(MapProfile)); //Built-in DI Conteiner
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
     x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
@@ -56,6 +58,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>(); //Built-i
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory()); //Built-in DI Conteiner yerine AutoFac kullanacaðýz.
 builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder=>containerBuilder.RegisterModule(new RepoServiceModule())); //RepoServiceModule register edilir. filter modul içinde eklenmeli
+
+
 
 var app = builder.Build();
 
